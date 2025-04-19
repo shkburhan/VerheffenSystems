@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REMOTE_USER = 'ubuntu'
-        REMOTE_HOST = '3.110.197.189'
+        REMOTE_HOST = '3.111.149.65'
         REMOTE_PATH = '/var/www/html'
     }
 
