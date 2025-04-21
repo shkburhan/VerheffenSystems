@@ -24,13 +24,10 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 echo '🚀 Deploying to EC2...'
-                sshagent(['ec2-ssh-key']) {
+                sshagent(['ec2-ssh-key2']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST 'sudo rm -rf $REMOTE_PATH/*'
-                        ssh $REMOTE_USER@$REMOTE_HOST 'mkdir -p /tmp/deploy-temp'
-                        scp -o StrictHostKeyChecking=no -r ./* $REMOTE_USER@$REMOTE_HOST:/tmp/deploy-temp
-                        ssh $REMOTE_USER@$REMOTE_HOST 'sudo mv /tmp/deploy-temp/* $REMOTE_PATH && sudo chown -R www-data:www-data $REMOTE_PATH'
-                        ssh $REMOTE_USER@$REMOTE_HOST 'sudo systemctl reload nginx'
+                        scp -o StrictHostKeyChecking=no -r * ubuntu@3.111.149.65:/var/www/html/
+                        scp -o StrictHostKeyChecking=no ubuntu@3.111.149.65 "sudo cp -r /tmp/deploy/* /var/www/html/"
                     """
                 }
             }
@@ -45,3 +42,4 @@ pipeline {
             echo '❌ Deployment failed.'
         }
     }
+}
